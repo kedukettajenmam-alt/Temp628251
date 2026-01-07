@@ -1,0 +1,9 @@
+Disabling Managed Package Runtime switches OmniStudio execution from managed package runtime to standard (non-namespaced) runtime.
+
+There is no data impact, as all data is already stored in Standard Objects.
+
+Existing compiled OmniScripts and FlexCards were built using managed runtime and must be recompiled after the change.
+
+Design-time metadata remains unchanged.
+
+Custom LWCs are not impacted, as they already use standard omnistudio/ imports
