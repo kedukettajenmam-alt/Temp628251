@@ -1,9 +1,149 @@
-Disabling Managed Package Runtime switches OmniStudio execution from managed package runtime to standard (non-namespaced) runtime.
+OmniStudio Runtime Migration Steps
+Conversation with Gemini
+fix grammer and rephrase as an short notes
 
-There is no data impact, as all data is already stored in Standard Objects.
 
-Existing compiled OmniScripts and FlexCards were built using managed runtime and must be recompiled after the change.
 
-Design-time metadata remains unchanged.
+Do you think any changes required in the steps?
 
-Custom LWCs are not impacted, as they already use standard omnistudio/ imports
+Short Notes: OmniStudio Standard Runtime Migration
+Here is the grammatical fix and rephrasing of your notes into a concise checklist.
+
+I. Setup & Configuration
+Disable Managed Package Runtime:
+
+Go to Setup → OmniStudio Settings.
+
+Disable the "Managed Package Runtime" setting.
+
+Enable Standard Runtime Deployment:
+
+In OmniStudio Settings, enable "Deploy Custom Lightning Web Components in Standard Runtime".
+
+Re-deploy Components:
+
+Open all active OmniScripts and FlexCards.
+
+Deactivate and then Activate them again to regenerate them for the Standard Runtime.
+
+Disable Designer (Optional):
+
+In OmniStudio Settings, disable "Managed Package Designer" (if you plan to use the Standard Designer).
+
+II. Code Changes (LWC Embedding)
+When embedding an OmniScript inside a custom Lightning Web Component (LWC), replace the generated LWC tag with the Standard Runtime wrapper.
+
+Old Code (Managed Package):
+
+HTML
+<c-business-detail-english prefill={prefillData} layout="lightning"></c-business-detail-english>
+New Code (Standard Runtime):
+
+HTML
+<omnistudio-omnistudio-standard-runtime-wrapper
+    type="BusinessDetail"
+    subtype="BusinessDetails"
+    language="English"
+    prefill={prefillData}>
+</omnistudio-omnistudio-standard-runtime-wrapper>
+III. Components to Update
+Update the following parent LWCs to use the wrapper tag above:
+
+obr_OnboardingOmniStudio.html
+
+obr_OfficialDetails
+
+obr_OmniStudioMccWF
+
+mccTabUtilityComponent
+
+obr_CHSDetails
+
+obr_IDandVDetails
+
+obrMCC_ConnectedBusinessOSCall
+
+onboardingMCCWFIDandV
+
+onboardingMCCWFOfficialDetails
+
+Do any changes look required?
+Yes, I recommend one small technical adjustment to your steps to prevent errors:
+
+Clarification on Step 2 (Deploy Setting): In your screenshot, you wrote "Deploy standardruntime compactibility OR Deploy Custom Lightning Web Components...".
+
+Correction: These are not two different options. You must enable the setting named "Deploy Custom Lightning Web Components in Standard Runtime" in Setup.
+
+Why? This setting is what forces OmniStudio to generate the LWC with the necessary code to work inside the standard-runtime-wrapper. If you miss this toggle, the wrapper code you added (Step II) might fail to load the script.
+
+Validation of the Wrapper Tag: Your usage of <omnistudio-omnistudio-standard-runtime-wrapper> is correct.
+
+In the old Managed Package Runtime, you could directly use the generated tag (e.g., <c-business-detail>).
+
+In the Standard Runtime, direct access to the generated LWC often fails because the component generation logic changes. Using the standard runtime wrapper is the recommended "safe" way to embed OmniScripts into custom LWCs during migration.
+
+Embed Omniscript in Lightning Web Components (LWC) This video demonstrates the specific syntax for embedding an OmniScript using the standard runtime wrapper, confirming the tag structure you used in your notes.
+
+Embed Omniscript in Lightning Web Components (LWC) - YouTube
+2Creative Solutions · 4K views
+
+
+2 and 3 point are clubbed and it's not about activate
+
+Understood. I have corrected the notes to combine the configuration steps and removed the specific "activate" instruction as requested.
+
+Here are the revised short notes:
+
+Migration Checklist: OmniStudio Standard Runtime
+I. Setup & Configuration
+Disable Managed Package Runtime:
+
+Navigate to Setup → OmniStudio Settings and disable "Managed Package Runtime".
+
+Ensure Runtime Compatibility:
+
+Open OmniScripts & FlexCards and ensure "Deploy standardruntime compatibility" is checked, OR
+
+Enable the global setting: "Deploy Custom Lightning Web Components in Standard Runtime" (in Setup).
+
+Disable Designer:
+
+Disable "Managed Package Designer".
+
+II. LWC Code Updates (Wrapper Implementation)
+Replace existing OmniScript tags with the Standard Runtime Wrapper in parent LWCs.
+
+Old Tag:
+
+HTML
+<c-business-detail-english prefill={prefillData} layout="lightning"></c-business-detail-english>
+New Wrapper Tag:
+
+HTML
+<omnistudio-omnistudio-standard-runtime-wrapper
+    type="BusinessDetail"
+    subtype="BusinessDetails"
+    language="English"
+    prefill={prefillData}>
+</omnistudio-omnistudio-standard-runtime-wrapper>
+III. Impacted Components
+The following components require the wrapper update:
+
+obr_OnboardingOmniStudio.html
+
+obr_OfficialDetails
+
+obr_OmniStudioMccWF
+
+mccTabUtilityComponent
+
+obr_CHSDetails
+
+obr_IDandVDetails
+
+obrMCC_ConnectedBusinessOSCall
+
+onboardingMCCWFIDandV
+
+onboardingMCCWFOfficialDetails
+
