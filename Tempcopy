@@ -1,13 +1,5 @@
-omniscriptHeader.js → nextStep()
-[...document.querySelectorAll('*')]
-  .filter(el =>
-    el.checkValidity &&
-    el.checkValidity() === false
-  )
-  .forEach(el => {
-    console.log('❌ Invalid Element:', el);
-    console.log('Name:', el.name || el.getAttribute('data-omni-key'));
-    console.log('Value:', el.value);
-  });
+const token = "lwc-5f1c262k7fr";
 
+[...document.querySelectorAll('*')]
+  .filter(el => el.shadowRoot?.host?.getAttribute('data-lwc-host') === token)
 
