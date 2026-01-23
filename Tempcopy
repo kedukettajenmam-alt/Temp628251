@@ -1,5 +1,2 @@
-const token = "lwc-5f1c262k7fr";
-
 [...document.querySelectorAll('*')]
-  .filter(el => el.shadowRoot?.host?.getAttribute('data-lwc-host') === token)
-
+  .filter(el => el.outerHTML.includes("lwc-5f1c262k7fr"))
