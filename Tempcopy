@@ -1,35 +1,39 @@
-// 1. Instantiate the class
-// Note: If this class is part of a managed package, you might need the namespace prefix (e.g., vlocity_cmt.VlocityOnboardingHelper)
-VlocityOnboardingHelper helper = new VlocityOnboardingHelper();
-
-// 2. Prepare the standard Vlocity/OmniStudio maps
+// 1. Prepare the inner maps (Input, Output, Options)
 Map<String, Object> inputMap = new Map<String, Object>();
 Map<String, Object> outputMap = new Map<String, Object>();
 Map<String, Object> optionsMap = new Map<String, Object>();
 
-// 3. Populate "Remote Options" from your screenshot
-// Note: "sObject" seems to contain a comma-separated list of object/fields
+// 2. Populate "Remote Options" from your screenshot
 optionsMap.put('sObject', 'Obr_Onboarding__c,PartyProfile,com_tax_id');
 
-// IMPORTANT: Replace 'YOUR_RECORD_ID_HERE' with a real Salesforce ID (e.g., 'a0B...')
-// The UI uses %ContextId%, which implies the ID of the record currently being viewed.
+// IMPORTANT: Replace with a valid Record ID from your org
 optionsMap.put('recordId', 'YOUR_RECORD_ID_HERE'); 
 
 optionsMap.put('screen', 'businessdetails');
 
-// 4. Call the method
-// The standard signature for Vlocity Remote Actions is invokeMethod(String, Map, Map, Map)
+// 3. Prepare the main arguments map required by the Callable interface
+// Vlocity passes input, output, and options as keys within this map
+Map<String, Object> args = new Map<String, Object>();
+args.put('input', inputMap);
+args.put('output', outputMap);
+args.put('options', optionsMap);
+
+// 4. Instantiate the class as a Callable interface
+// Ensure the class name is correct (add namespace if managed, e.g., vlocity_cmt.VlocityOnboardingHelper)
+Callable extension = (Callable) new VlocityOnboardingHelper();
+
 String methodName = 'checkCrudAccess';
 
 try {
-    Boolean success = helper.invokeMethod(methodName, inputMap, outputMap, optionsMap);
+    // 5. Run the .call() method
+    // The Callable interface always returns an Object and takes (String action, Map<String, Object> args)
+    Object result = extension.call(methodName, args);
+
+    // 6. Output the results
+    System.debug('Result Object: ' + result);
+    System.debug('Output Map (Updated by Reference): ' + outputMap);
+    System.debug('Options Map: ' + optionsMap);
     
-    // 5. Output the results
-    System.debug('Success: ' + success);
-    System.debug('Output Map (Result): ' + outputMap);
-    
-    // Sometimes errors or specific returns are put in the options map as well
-    System.debug('Options Map (After Run): ' + optionsMap);
 } catch (Exception e) {
     System.debug('Error Message: ' + e.getMessage());
     System.debug('Stack Trace: ' + e.getStackTraceString());
