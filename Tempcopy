@@ -1,40 +1,15 @@
-// 1. Prepare the inner maps (Input, Output, Options)
-Map<String, Object> inputMap = new Map<String, Object>();
-Map<String, Object> outputMap = new Map<String, Object>();
-Map<String, Object> optionsMap = new Map<String, Object>();
+Hi Nishika,
 
-// 2. Populate "Remote Options" from your screenshot
-optionsMap.put('sObject', 'Obr_Onboarding__c,PartyProfile,com_tax_id');
+I am currently working on the OmniStudio runtime migration as part of story BUK-5321.
 
-// IMPORTANT: Replace with a valid Record ID from your org
-optionsMap.put('recordId', 'YOUR_RECORD_ID_HERE'); 
+As part of this change, we are updating the Permission Set Groups for all onboarding user personas by adding the following permission sets:
 
-optionsMap.put('screen', 'businessdetails');
+OmniStudio_Standard_Designer_User
 
-// 3. Prepare the main arguments map required by the Callable interface
-// Vlocity passes input, output, and options as keys within this map
-Map<String, Object> args = new Map<String, Object>();
-args.put('input', inputMap);
-args.put('output', outputMap);
-args.put('options', optionsMap);
+OmniStudio_Additional_Permission
 
-// 4. Instantiate the class as a Callable interface
-// Ensure the class name is correct (add namespace if managed, e.g., vlocity_cmt.VlocityOnboardingHelper)
-Callable extension = (Callable) new VlocityOnboardingHelper();
+Could you please confirm if adding these permission sets would require any IAM changes or approvals from your end?
 
-String methodName = 'checkCrudAccess';
+Please let me know if you need more details.
 
-try {
-    // 5. Run the .call() method
-    // The Callable interface always returns an Object and takes (String action, Map<String, Object> args)
-    Object result = extension.call(methodName, args);
-
-    // 6. Output the results
-    System.debug('Result Object: ' + result);
-    System.debug('Output Map (Updated by Reference): ' + outputMap);
-    System.debug('Options Map: ' + optionsMap);
-    
-} catch (Exception e) {
-    System.debug('Error Message: ' + e.getMessage());
-    System.debug('Stack Trace: ' + e.getStackTraceString());
-}
+Thanks and regards,
