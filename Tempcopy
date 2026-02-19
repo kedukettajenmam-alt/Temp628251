@@ -1,3 +1,1 @@
-We would appreciate an update on the current status and the expected timeline for fixing the issue, as this is blocking our progress.
-
-Kindly let us know the ETA at the earliest.
+Regarding BR3, could you please confirm if this logic should be handled on the API side? Specifically, will the API be responsible for sending the request with Business Type = Switcher to Salesforce?"
