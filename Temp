@@ -1,0 +1,32 @@
+"conditionalView": [
+  {
+    "show": {
+      "group": {
+        "operator": "AND",
+        "rules": [
+          {
+            "condition": "=",
+            "data": "YourValue",
+            "field": "YourConditionField"
+          }
+        ]
+      }
+    },
+    "conditionType": "Disable Read Only if True"
+  },
+  {
+    "show": {
+      "group": {
+        "operator": "AND",
+        "rules": [
+          {
+            "condition": "=",
+            "data": "YourValue",
+            "field": "YourConditionField"
+          }
+        ]
+      }
+    },
+    "conditionType": "Set Element to Required if True"
+  }
+]
